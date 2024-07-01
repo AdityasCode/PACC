@@ -8,6 +8,17 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded",
 )
+st.markdown(
+        f"""
+        <style>
+        .stApp {{
+            background-image: url("gallery/126797E6-1545-486C-979D-93345C38382E_1_201_a.heic");
+            background-size: cover;
+        }}
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
 
 # Title and description
 st.title("🌍 Climate Change Impact Predictions 🌿")
