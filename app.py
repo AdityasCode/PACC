@@ -99,3 +99,55 @@ if st.button("Submit"):
         - Stay informed about air quality and avoid outdoor activities during high pollution periods.
         """)
 
+# FAQ Section
+st.header("Frequently Asked Questions (FAQs)")
+
+st.subheader("1. What does the app do with my location?")
+st.write("""
+The app uses your location to provide region-specific climate change impact predictions. This includes ecological changes, potential health risks, and job market shifts that might affect your area.
+""")
+
+st.subheader("2. Why do you need my age?")
+st.write("""
+Your age helps us tailor the predictions to your stage of life. Different age groups may experience the impacts of climate change differently, especially in terms of health and job market implications.
+""")
+
+st.subheader("3. How are my medical conditions relevant?")
+st.write("""
+Climate change can exacerbate certain medical conditions. By knowing your medical history, the app can provide more accurate predictions on how climate change might impact your health and offer personalized recommendations.
+""")
+
+st.subheader("4. What do you do with my financial information?")
+st.write("""
+Your financial information, including net worth and asset worth, helps the app assess your ability to relocate or adapt to climate change. This information is used to give you tailored advice on whether moving is a viable option or if you should modify your living space and lifestyle.
+""")
+
+st.subheader("5. Why is my job and confidence in getting another job important?")
+st.write("""
+Your job and your confidence in securing another job are crucial in understanding your economic stability. Climate change can impact job markets, and this information helps us predict how your employment might be affected and provide recommendations accordingly.
+""")
+
+st.subheader("6. How does the app use the 'years into the future' slider?")
+st.write("""
+The 'years into the future' slider allows you to choose a time frame for the predictions. The app adjusts its predictions based on the selected number of years, offering a forward-looking view of the potential impacts of climate change.
+""")
+
+st.subheader("7. What do the ecological impact predictions mean?")
+st.write("""
+Ecological impact predictions describe how your city might be affected by climate change. This includes changes in weather patterns, sea level rise, and other environmental factors that could impact daily life and infrastructure.
+""")
+
+st.subheader("8. How does climate change affect my medical conditions?")
+st.write("""
+Certain medical conditions can worsen due to climate change. For example, increased air pollution and higher temperatures can exacerbate respiratory conditions like asthma. The app provides insights into how your specific medical conditions might be impacted.
+""")
+
+st.subheader("9. How can climate change impact my job?")
+st.write("""
+Climate change can lead to economic shifts that affect job markets. Certain industries might shrink or grow, and remote work opportunities may increase. The app provides an overview of how your job might be affected based on these potential changes.
+""")
+
+st.subheader("10. What does the relocation recommendation score mean?")
+st.write("""
+The relocation recommendation score (1-100) indicates how advisable it is for you to consider moving to a different location based on climate change predictions. A higher score suggests that relocation might be a beneficial option.
+""")
