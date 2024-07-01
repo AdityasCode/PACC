@@ -12,7 +12,7 @@ st.markdown(
         f"""
         <style>
         .stApp {{
-            background-image: url("gallery/126797E6-1545-486C-979D-93345C38382E_1_201_a.heic");
+            background-image: url("gallery/126797E6-1545-486C-979D-93345C38382E_1_201_a.jpeg");
             background-size: cover;
         }}
         </style>
