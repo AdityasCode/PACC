@@ -130,14 +130,6 @@ faq_options = {
     """,
     "What does the relocation recommendation score mean?": """
     The relocation recommendation score (1-100) indicates how advisable it is for you to consider moving to a different location based on climate change predictions. A higher score suggests that relocation might be a beneficial option.
-    """,
-    "What kind of modifications should I consider for my living space, lifestyle, or diet?": """
-    To prepare for the effects of climate change, consider the following:
-    - Improve insulation and ventilation in your home to maintain a stable indoor environment.
-    - Reduce energy consumption by using renewable energy sources.
-    - Adopt a diet that includes sustainable food sources.
-    - Stay informed about air quality and avoid outdoor activities during high pollution periods.
-    These modifications can help mitigate the adverse effects of climate change on your health and well-being.
     """
 }
 
