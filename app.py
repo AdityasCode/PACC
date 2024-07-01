@@ -1,3 +1,5 @@
+import base64
+
 import streamlit as st
 import time
 
@@ -11,11 +13,10 @@ st.set_page_config(
 st.markdown(
         f"""
         <style>
-        body {{
-            background-image: url("gallery/126797E6-1545-486C-979D-93345C38382E_1_201_a.jpeg");
-            background-size: cover;
-        }}
-        </style>
+      [data-testid="stSidebar"] > div:first-child {{
+          background: url(data:image/gallery/126797E6-1545-486C-979D-93345C38382E_1_201_a.jpeg;base64,{base64.b64encode(open("gallery/126797E6-1545-486C-979D-93345C38382E_1_201_a.jpeg", "rb").read()).decode()});
+      }}
+      </style>
         """,
         unsafe_allow_html=True
     )
