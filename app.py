@@ -11,7 +11,7 @@ st.set_page_config(
 st.markdown(
         f"""
         <style>
-        .stApp {{
+        body {{
             background-image: url("gallery/126797E6-1545-486C-979D-93345C38382E_1_201_a.jpeg");
             background-size: cover;
         }}
