@@ -141,6 +141,7 @@ faq_options = {
     """
 }
 
-selected_faq = st.selectbox("Select an FAQ", list(faq_options.keys()))
+st.header("Frequently Asked Questions (FAQs)")
+selected_faq = st.selectbox("", list(faq_options.keys()))
 
 st.write(faq_options[selected_faq])
