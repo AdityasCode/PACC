@@ -41,7 +41,7 @@ st.set_page_config(
 )
 
 # Title and description
-st.title("🌍 Climate Change Impact Predictions 🌿")
+st.title("🌍 Climate Change Impact Predictions 🌿 v1")
 st.write("""
 Welcome to the Climate Change Impact Prediction app. This tool helps you understand how climate change might affect various aspects of your life based on your demographics and current situation.
 """)
