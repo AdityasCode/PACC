@@ -75,7 +75,7 @@ if st.button("Submit"):
     else:
         # Display loading message
         with st.spinner('Calculating predictions... Please wait...'):
-            time.sleep(12)  # Simulating computation time
+            time.sleep(6)  # Simulating computation time
 
         # Hard-coded output
         st.header("Predictions")
