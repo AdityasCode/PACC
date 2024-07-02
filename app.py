@@ -1,7 +1,35 @@
-import base64
-
 import streamlit as st
 import time
+import openai
+import os
+import dotenv
+
+# Load environment variables
+dotenv.load_dotenv()
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+openai.api_key = OPENAI_API_KEY
+
+# Function to get GPT output
+system_msg = {
+    "role": "system",
+    "content": (
+        "You are an AI assistant integrated into a climate change prediction app. Your purpose is to provide concise, "
+        "to-the-point responses regarding the ecological impact of climate change, its effects on medical conditions, "
+        "job market implications, and advice on relocation or lifestyle modifications based on user input."
+    )
+}
+
+
+def get_gpt_output(prompt):
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            system_msg,
+            {"role": "user", "content": prompt}
+        ]
+    )
+    return response['choices'][0]['message']['content']
+
 
 # Set page configuration
 st.set_page_config(
@@ -10,16 +38,6 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded",
 )
-st.markdown(
-        f"""
-        <style>
-      [data-testid="stSidebar"] > div:first-child {{
-          background: url(data:image/gallery/126797E6-1545-486C-979D-93345C38382E_1_201_a.jpeg;base64,{base64.b64encode(open("gallery/126797E6-1545-486C-979D-93345C38382E_1_201_a.jpeg", "rb").read()).decode()});
-      }}
-      </style>
-        """,
-        unsafe_allow_html=True
-    )
 
 # Title and description
 st.title("🌍 Climate Change Impact Predictions 🌿")
@@ -31,24 +49,25 @@ Welcome to the Climate Change Impact Prediction app. This tool helps you underst
 st.header("Input your information")
 
 # Location
-location = st.text_input("Your location (City):", placeholder="Enter your city", value="San Francisco")
+location = st.text_input("Your location (City):", placeholder="Enter your city")
 
 # Age
-age = st.number_input("Your age:", min_value=0, max_value=120, step=1, value=38)
+age = st.number_input("Your age:", min_value=0, max_value=120, step=1)
 
 # Medical conditions
-medical_conditions = st.text_area("List your medical conditions:", placeholder="Enter your medical conditions, separated by commas", value="Asthma,MS")
+medical_conditions = st.text_area("List your medical conditions:",
+                                  placeholder="Enter your medical conditions, separated by commas")
 
 # Finances
 st.subheader("Your Finances")
-net_worth = st.number_input("Current net worth ($):", min_value=0, step=1000, value=180000)
-asset_worth = st.number_input("Asset worth ($):", min_value=0, step=1000, value=20000)
+net_worth = st.number_input("Current net worth ($):", min_value=0, step=1000)
+asset_worth = st.number_input("Asset worth ($):", min_value=0, step=1000)
 
 # Job
-job = st.text_input("Your job title:", placeholder="Enter your job title", value="Senior Software Engineer at NeXT and Sun Microsystems")
+job = st.text_input("Your job title:", placeholder="Enter your job title")
 
 # Confidence in getting another job
-job_confidence = st.slider("Confidence in getting another job (1-100):", min_value=1, max_value=100, step=1, value=4)
+job_confidence = st.slider("Confidence in getting another job (1-100):", min_value=1, max_value=100, step=1)
 
 # Years into the future
 years_future = st.slider("How many years into the future do you want to predict?", min_value=1, max_value=50, value=10)
@@ -75,43 +94,43 @@ if st.button("Submit"):
     else:
         # Display loading message
         with st.spinner('Calculating predictions... Please wait...'):
-            time.sleep(6)  # Simulating computation time
+            time.sleep(12)  # Simulating computation time
 
-        # Hard-coded output
+        # Generate output using GPT
+        ecological_prompt = f"Describe the ecological impact on {location} in {years_future} years due to climate change."
+        ecological_impact = get_gpt_output(ecological_prompt)
+
+        medical_prompt = f"Describe how asthma and early stage MS might be impacted by climate change in {years_future} years."
+        medical_impact = get_gpt_output(medical_prompt)
+
+        job_prompt = f"Describe how a senior software engineer job at NeXT and Sun Microsystems might be impacted by climate change in {years_future} years."
+        job_impact = get_gpt_output(job_prompt)
+
+        relocation_prompt = f"Recommend whether a person with $180000 in bank account and $20000 in assets should relocate due to climate change in {years_future} years, and suggest nearby locations."
+        relocation_recommendation = get_gpt_output(relocation_prompt)
+
+        modification_prompt = f"Suggest modifications for living space, daily lifestyle, or diet to prepare for climate change effects in {years_future} years."
+        modifications = get_gpt_output(modification_prompt)
+
+        # Display results
         st.header("Predictions")
 
-        st.subheader(f"Ecological Impact on San Francisco in {years_future} years")
-        st.write(f"""
-        In {years_future} years, San Francisco is expected to experience significant ecological changes due to climate change. Rising sea levels and increased frequency of extreme weather events will likely affect coastal areas, leading to flooding and infrastructure damage.
-        """)
+        st.subheader(f"Ecological Impact on {location} in {years_future} years")
+        st.write(ecological_impact)
 
         st.subheader(f"Impact on Medical Conditions in {years_future} years")
-        st.write(f"""
-        With asthma and an early stage of MS, you might experience worsened symptoms due to increased air pollution and higher temperatures over the next {years_future} years. It's essential to stay in a well-ventilated and climate-controlled environment.
-        """)
+        st.write(medical_impact)
 
         st.subheader(f"Impact on Job in {years_future} years")
-        st.write(f"""
-        As a senior software engineer at NeXT and Sun Microsystems, your job might be affected by changes in the tech industry driven by climate change over the next {years_future} years. Remote work opportunities may increase, but job security could be influenced by economic instability.
-        """)
+        st.write(job_impact)
 
         st.subheader("Relocation Recommendation")
-        relocation_recommendation = 70
-        nearby_locations = ["Portland, OR", "Seattle, WA", "Denver, CO"]
-        st.write(f"""
-        Based on your input, we recommend a relocation score of {relocation_recommendation}/100. Consider moving to one of these nearby locations: {", ".join(nearby_locations)}.
-        """)
+        st.write(relocation_recommendation)
 
         st.subheader("Modifying Your Living Space, Daily Lifestyle, or Diet")
-        st.write(f"""
-        To prepare for the effects of climate change over the next {years_future} years, consider implementing the following changes:
-        - Improve insulation and ventilation in your home.
-        - Reduce energy consumption and use renewable energy sources.
-        - Adopt a diet rich in fruits, vegetables, and sustainable food sources.
-        - Stay informed about air quality and avoid outdoor activities during high pollution periods.
-        """)
+        st.write(modifications)
 
-# Selectbox for FAQs
+            # Selectbox for FAQs
 faq_options = {
     "What does the app do with my location?": """
     The app uses your location to provide region-specific climate change impact predictions. This includes ecological changes, potential health risks, and job market shifts that might affect your area.
