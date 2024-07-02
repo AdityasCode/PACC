@@ -97,7 +97,7 @@ if st.button("Submit"):
         st.spinner('Calculating predictions... Please wait...')
 
         # Generate output using GPT
-        ecological_prompt = str(f"Describe the ecological impact on {location} in {years_future} years due to climate change.")
+        ecological_prompt = str(f"Describe the ecological impact on {location} in {years_future.f} years due to climate change.")
         ecological_impact = get_gpt_output(ecological_prompt)
 
         medical_prompt = str(f"Describe how asthma and early stage MS might be impacted by climate change in {years_future} years.")
