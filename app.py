@@ -9,6 +9,7 @@ import dotenv
 dotenv.load_dotenv()
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 client = OpenAI(api_key=OPENAI_API_KEY)
+print(OPENAI_API_KEY)
 
 # Function to get GPT output
 system_msg = {
@@ -23,10 +24,11 @@ system_msg = {
 
 def get_gpt_output(prompt):
     response = client.chat.completions.create(model="gpt-3.5-turbo",
-    messages=[
-        system_msg,
-        {"role": "user", "content": prompt}
-    ])
+                                              messages=[
+                                                  system_msg,
+                                                  {"role": "user", "content": prompt}
+                                              ],
+                                              temperature=0)
     return response.choices[0].message.content
 
 
@@ -92,35 +94,34 @@ if st.button("Submit"):
         st.error("\n".join(errors))
     else:
         # Display loading message
-        with st.spinner('Calculating predictions... Please wait...'):
-            time.sleep(12)  # Simulating computation time
+        st.spinner('Calculating predictions... Please wait...')
 
         # Generate output using GPT
-        ecological_prompt = f"Describe the ecological impact on {location} in {years_future} years due to climate change."
+        ecological_prompt = str(f"Describe the ecological impact on {location} in {years_future} years due to climate change.")
         ecological_impact = get_gpt_output(ecological_prompt)
 
-        medical_prompt = f"Describe how asthma and early stage MS might be impacted by climate change in {years_future} years."
+        medical_prompt = str(f"Describe how asthma and early stage MS might be impacted by climate change in {years_future} years.")
         medical_impact = get_gpt_output(medical_prompt)
 
-        job_prompt = f"Describe how a senior software engineer job at NeXT and Sun Microsystems might be impacted by climate change in {years_future} years."
+        job_prompt = str(f"Describe how a senior software engineer job at NeXT and Sun Microsystems might be impacted by climate change in {years_future} years.")
         job_impact = get_gpt_output(job_prompt)
 
-        relocation_prompt = f"Recommend whether a person with $180000 in bank account and $20000 in assets should relocate due to climate change in {years_future} years, and suggest nearby locations."
+        relocation_prompt = str(f"Recommend whether a person with $180000 in bank account and $20000 in assets should relocate due to climate change in {years_future} years, and suggest nearby locations.")
         relocation_recommendation = get_gpt_output(relocation_prompt)
 
-        modification_prompt = f"Suggest modifications for living space, daily lifestyle, or diet to prepare for climate change effects in {years_future} years."
+        modification_prompt = str(f"Suggest modifications for living space, daily lifestyle, or diet to prepare for climate change effects in {years_future} years.")
         modifications = get_gpt_output(modification_prompt)
 
         # Display results
         st.header("Predictions")
 
-        st.subheader(f"Ecological Impact on {location} in {years_future} years")
+        st.subheader(str(f"Ecological Impact on {location} in {years_future} years"))
         st.write(ecological_impact)
 
-        st.subheader(f"Impact on Medical Conditions in {years_future} years")
+        st.subheader(str(f"Impact on Medical Conditions in {years_future} years"))
         st.write(medical_impact)
 
-        st.subheader(f"Impact on Job in {years_future} years")
+        st.subheader(str(f"Impact on Job in {years_future} years"))
         st.write(job_impact)
 
         st.subheader("Relocation Recommendation")
@@ -129,7 +130,7 @@ if st.button("Submit"):
         st.subheader("Modifying Your Living Space, Daily Lifestyle, or Diet")
         st.write(modifications)
 
-            # Selectbox for FAQs
+        # Selectbox for FAQs
 faq_options = {
     "What does the app do with my location?": """
     The app uses your location to provide region-specific climate change impact predictions. This includes ecological changes, potential health risks, and job market shifts that might affect your area.
