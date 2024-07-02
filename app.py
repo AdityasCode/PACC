@@ -71,7 +71,7 @@ job = st.text_input("Your job title:", placeholder="Enter your job title")
 job_confidence = st.slider("Confidence in getting another job (1-100):", min_value=1, max_value=100, step=1)
 
 # Years into the future
-years_future = st.slider("How many years into the future do you want to predict?", min_value=1, max_value=50, value=10)
+years_future = int(st.slider("How many years into the future do you want to predict?", min_value=1, max_value=50, value=10))
 
 # Error checking
 errors = []
@@ -97,7 +97,7 @@ if st.button("Submit"):
         st.spinner('Calculating predictions... Please wait...')
 
         # Generate output using GPT
-        ecological_prompt = str(f"Describe the ecological impact on {location} in {years_future.f} years due to climate change.")
+        ecological_prompt = str(f"Describe the ecological impact on {str(location)} in {int(years_future)} years due to climate change.")
         ecological_impact = get_gpt_output(ecological_prompt)
 
         medical_prompt = str(f"Describe how asthma and early stage MS might be impacted by climate change in {years_future} years.")
