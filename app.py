@@ -31,24 +31,24 @@ Welcome to the Climate Change Impact Prediction app. This tool helps you underst
 st.header("Input your information")
 
 # Location
-location = st.text_input("Your location (City):", placeholder="Enter your city")
+location = st.text_input("Your location (City):", placeholder="Enter your city", value="San Francisco")
 
 # Age
-age = st.number_input("Your age:", min_value=0, max_value=120, step=1)
+age = st.number_input("Your age:", min_value=0, max_value=120, step=1, value=38)
 
 # Medical conditions
-medical_conditions = st.text_area("List your medical conditions:", placeholder="Enter your medical conditions, separated by commas")
+medical_conditions = st.text_area("List your medical conditions:", placeholder="Enter your medical conditions, separated by commas", value="Asthma,MS")
 
 # Finances
 st.subheader("Your Finances")
-net_worth = st.number_input("Current net worth ($):", min_value=0, step=1000)
-asset_worth = st.number_input("Asset worth ($):", min_value=0, step=1000)
+net_worth = st.number_input("Current net worth ($):", min_value=0, step=1000, value=180000)
+asset_worth = st.number_input("Asset worth ($):", min_value=0, step=1000, value=20000)
 
 # Job
-job = st.text_input("Your job title:", placeholder="Enter your job title")
+job = st.text_input("Your job title:", placeholder="Enter your job title", value="Senior Software Engineer at NeXT and Sun Microsystems")
 
 # Confidence in getting another job
-job_confidence = st.slider("Confidence in getting another job (1-100):", min_value=1, max_value=100, step=1)
+job_confidence = st.slider("Confidence in getting another job (1-100):", min_value=1, max_value=100, step=1, value=4)
 
 # Years into the future
 years_future = st.slider("How many years into the future do you want to predict?", min_value=1, max_value=50, value=10)
