@@ -1,13 +1,14 @@
 import streamlit as st
 import time
-import openai
+from openai import OpenAI
+
 import os
 import dotenv
 
 # Load environment variables
 dotenv.load_dotenv()
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-openai.api_key = OPENAI_API_KEY
+client = OpenAI(api_key=OPENAI_API_KEY)
 
 # Function to get GPT output
 system_msg = {
@@ -21,14 +22,12 @@ system_msg = {
 
 
 def get_gpt_output(prompt):
-    response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=[
-            system_msg,
-            {"role": "user", "content": prompt}
-        ]
-    )
-    return response['choices'][0]['message']['content']
+    response = client.chat.completions.create(model="gpt-3.5-turbo",
+    messages=[
+        system_msg,
+        {"role": "user", "content": prompt}
+    ])
+    return response.choices[0].message.content
 
 
 # Set page configuration
