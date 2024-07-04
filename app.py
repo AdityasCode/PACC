@@ -1,9 +1,9 @@
-import streamlit as st
-import time
-from openai import OpenAI
-
 import os
+
 import dotenv
+import streamlit as st
+import streamlit_analytics
+from openai import OpenAI
 
 # Load environment variables
 dotenv.load_dotenv()
@@ -11,25 +11,30 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 client = OpenAI(api_key=OPENAI_API_KEY)
 print(OPENAI_API_KEY)
 
+# Setup streamlit
+streamlit_analytics.start_tracking()
+
 # Function to get GPT output
 system_msg = {
     "role": "system",
     "content": (
         "You are an AI assistant integrated into a climate change prediction app. Your purpose is to provide concise, "
         "to-the-point responses regarding the ecological impact of climate change, its effects on medical conditions, "
-        "job market implications, and advice on relocation or lifestyle modifications based on user input."
+        "job market implications, and advice on relocation or lifestyle modifications based on user input. I will give "
+        "you information about this user in pieces."
     )
 }
+messages_array = [system_msg]
 
 
 def get_gpt_output(prompt):
-    response = client.chat.completions.create(model="gpt-3.5-turbo",
-                                              messages=[
-                                                  system_msg,
-                                                  {"role": "user", "content": prompt}
-                                              ],
+    messages_array.append({"role": "user", "content": prompt})
+    raw_response = client.chat.completions.create(model="gpt-3.5-turbo",
+                                                  messages=messages_array,
                                               temperature=0)
-    return response.choices[0].message.content
+    response = raw_response.choices[0].message.content
+    messages_array.append({"role": "assistant", "content": response})
+    return response
 
 
 # Set page configuration
@@ -71,7 +76,7 @@ job = st.text_input("Your job title:", placeholder="Enter your job title")
 job_confidence = st.slider("Confidence in getting another job (1-100):", min_value=1, max_value=100, step=1)
 
 # Years into the future
-years_future = int(st.slider("How many years into the future do you want to predict?", min_value=1, max_value=50, value=10))
+years_future = st.slider("How many years into the future do you want to predict?", min_value=1, max_value=50, value=10)
 
 # Error checking
 errors = []
@@ -97,19 +102,26 @@ if st.button("Submit"):
         st.spinner('Calculating predictions... Please wait...')
 
         # Generate output using GPT
-        ecological_prompt = str(f"Describe the ecological impact on {str(location)} in {int(years_future)} years due to climate change.")
+        ecological_prompt = str(
+            f"Describe the ecological impact on {location} in {years_future.f} years due to climate change.")
         ecological_impact = get_gpt_output(ecological_prompt)
 
-        medical_prompt = str(f"Describe how asthma and early stage MS might be impacted by climate change in {years_future} years.")
+        medical_prompt = str(
+            f"Describe how {medical_conditions} in {location} might be impacted by climate change in {years_future} years.")
         medical_impact = get_gpt_output(medical_prompt)
 
-        job_prompt = str(f"Describe how a senior software engineer job at NeXT and Sun Microsystems might be impacted by climate change in {years_future} years.")
+        job_prompt = str(
+            f"Describe how a {job} might be impacted by climate change in {years_future} years.")
         job_impact = get_gpt_output(job_prompt)
 
-        relocation_prompt = str(f"Recommend whether a person with $180000 in bank account and $20000 in assets should relocate due to climate change in {years_future} years, and suggest nearby locations.")
+        relocation_prompt = str(
+            f"Recommend whether a person with ${net_worth} in bank account and ${asset_worth} in assets should relocate"
+            f" due to climate change in {years_future} years, and suggest nearby locations.")
         relocation_recommendation = get_gpt_output(relocation_prompt)
 
-        modification_prompt = str(f"Suggest modifications for living space, daily lifestyle, or diet to prepare for climate change effects in {years_future} years.")
+        modification_prompt = str(
+            f"Suggest modifications for living space, daily lifestyle, or diet to prepare for climate change effects in"
+            f" {years_future} years.")
         modifications = get_gpt_output(modification_prompt)
 
         # Display results
@@ -168,3 +180,8 @@ st.header("Frequently Asked Questions (FAQs)")
 selected_faq = st.selectbox("", list(faq_options.keys()))
 
 st.write(faq_options[selected_faq])
+
+# End streamlit tracking
+streamlit_analytics.stop_tracking(unsafe_password=os.getenv("STREAMLIT_TRACKING_PASSWORD"),
+                                  firestore_collection_name="analytics", firestore_key_file=os.getenv("FIRESTORE_JSON"),
+                                  save_to_json="setup/analytics_results.json")
