@@ -1,3 +1,4 @@
+import json
 import os
 
 import dotenv
@@ -13,6 +14,30 @@ print(OPENAI_API_KEY)
 
 # Setup streamlit
 streamlit_analytics.start_tracking()
+
+# setup my json
+
+keys = [
+    "type",
+    "project_id",
+    "private_key_id",
+    "private_key",
+    "client_email",
+    "client_id",
+    "auth_uri",
+    "token_uri",
+    "auth_provider_x509_cert_url",
+    "client_x509_cert_url",
+    "universe_domain"
+]
+
+# Create a dictionary from environment variables
+creds = {key: os.getenv(key.lower()) for key in keys}
+
+# Write the dictionary to a JSON file
+with open('creds.json', 'w') as json_file:
+    json.dump(creds, json_file, indent=2)
+
 
 # Function to get GPT output
 system_msg = {
@@ -183,5 +208,5 @@ st.write(faq_options[selected_faq])
 
 # End streamlit tracking
 streamlit_analytics.stop_tracking(unsafe_password=os.getenv("STREAMLIT_TRACKING_PASSWORD"),
-                                  firestore_collection_name="analytics", firestore_key_file=os.getenv("FIRESTORE_JSON"),
+                                  firestore_collection_name="analytics", firestore_key_file="setup/creds.json",
                                   save_to_json="setup/analytics_results.json")
