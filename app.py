@@ -31,7 +31,7 @@ def get_gpt_output(prompt):
     messages_array.append({"role": "user", "content": prompt})
     raw_response = client.chat.completions.create(model="gpt-3.5-turbo",
                                                   messages=messages_array,
-                                              temperature=0)
+                                                  temperature=0)
     response = raw_response.choices[0].message.content
     messages_array.append({"role": "assistant", "content": response})
     return response
