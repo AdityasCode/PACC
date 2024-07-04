@@ -35,8 +35,10 @@ keys = [
 creds = {key: os.getenv(key.lower()) for key in keys}
 
 # Write the dictionary to a JSON file
-with open('setup/creds.json', 'w+') as json_file:
-    json.dump(creds, json_file, indent=2)
+
+json_file = open(r'setup/creds.json', 'w')
+json.dump(creds, json_file, indent=2)
+json_file.close()
 
 
 # Function to get GPT output
