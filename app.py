@@ -103,7 +103,7 @@ if st.button("Submit"):
 
         # Generate output using GPT
         ecological_prompt = str(
-            f"Describe the ecological impact on {location} in {years_future.f} years due to climate change.")
+            f"Describe the ecological impact on {location} in {years_future} years due to climate change.")
         ecological_impact = get_gpt_output(ecological_prompt)
 
         medical_prompt = str(
