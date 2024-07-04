@@ -35,7 +35,7 @@ keys = [
 creds = {key: os.getenv(key.lower()) for key in keys}
 
 # Write the dictionary to a JSON file
-with open('creds.json', 'w') as json_file:
+with open('setup/creds.json', 'w+') as json_file:
     json.dump(creds, json_file, indent=2)
 
 
