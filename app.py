@@ -36,7 +36,7 @@ creds = {key: os.getenv(key.lower()) for key in keys}
 
 # Write the dictionary to a JSON file
 
-json_file = open(r'setup/creds.json', 'w')
+json_file = open(r"creds.json", "w")
 json.dump(creds, json_file, indent=2)
 json_file.close()
 
@@ -210,5 +210,5 @@ st.write(faq_options[selected_faq])
 
 # End streamlit tracking
 streamlit_analytics.stop_tracking(unsafe_password=os.getenv("STREAMLIT_TRACKING_PASSWORD"),
-                                  firestore_collection_name="analytics", firestore_key_file="setup/creds.json",
+                                  firestore_collection_name="analytics", firestore_key_file="creds.json",
                                   save_to_json="setup/analytics_results.json")
