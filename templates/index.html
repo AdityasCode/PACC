@@ -36,7 +36,7 @@
     <h2>Predictions:</h2>
     {% for key, value in responses.items() %}
         <h3>{{ key.capitalize().replace('_', ' ') }}:</h3>
-        <p>{{ value }}</p>
+        <p style="white-space: pre-wrap;">{{ value | bold }}</p>
     {% endfor %}
 {% endif %}
 </body>

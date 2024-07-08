@@ -1,8 +1,10 @@
 import os
+import re
 
 # Load environment variables
 from dotenv import load_dotenv
 from flask import Flask, request, render_template
+from markupsafe import Markup
 from openai import OpenAI
 
 load_dotenv()
@@ -12,6 +14,16 @@ client = OpenAI(api_key=OPENAI_API_KEY)
 
 # Initialize Flask app
 app = Flask(__name__)
+
+
+@app.template_filter('bold')
+def bold_filter(s):
+    bolded = re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', s)
+    return Markup(bolded)
+
+
+app.jinja_env.filters['bold'] = bold_filter
+
 
 # Function to get GPT output
 system_msg = {
@@ -32,7 +44,8 @@ system_msg = {
         "general global trend and use most popular cities in the world for the relocation. if someone fails to provide "
         "an age between 13 and 120, default to 25 and mention 'Defaulting to 25 years old.' Similarly, default to 0 "
         "for net and asset worths and mention it, and default to no medical conditions if you cannot understand or they"
-        " have not given sufficient information on that."
+        " have not given sufficient information on that. Separate by newlines, format as needed. Will be printed as "
+        "plain text, so no need for asterisks or stars to make bold."
     )
 }
 messages_array = [system_msg]
@@ -40,7 +53,7 @@ messages_array = [system_msg]
 
 def get_gpt_output(prompt):
     messages_array.append({"role": "user", "content": prompt})
-    raw_response = client.chat.completions.create(model="gpt-3.5-turbo",
+    raw_response = client.chat.completions.create(model="gpt-4o",
                                                   messages=messages_array,
                                                   temperature=0)
     response = raw_response.choices[0].message.content
