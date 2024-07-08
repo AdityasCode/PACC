@@ -17,10 +17,14 @@ app = Flask(__name__)
 system_msg = {
     "role": "system",
     "content": (
-        "You are an AI assistant integrated into a climate change prediction app. Your purpose is to provide concise, "
-        "to-the-point responses regarding the ecological impact of climate change, its effects on medical conditions, "
-        "job market implications, and advice on relocation or lifestyle modifications based on user input. I will give "
-        "you information about this user in pieces."
+        "You are a bot that estimates climate change effects on various aspects of a person's life, integrated into a "
+        "climate change prediction app. Your purpose is to provide concise, to-the-point responses regarding the "
+        "ecological impact of climate change. A user will talk to my app, and give their city/state/country, age, "
+        "medical conditions, net worth, asset worth, job, and likelihood of getting another job. I will then tell you"
+        "how many years into the future you should predict. Only answer with your predictions, no greetings, no other "
+        "phrases and nothing else. if you happen to receive missing or invalid input or something that does not sound real or "
+        "fitting, simply reply with 'invalid/insufficient/missing input'. Give answers as detailed as possible, but do "
+        "not give false information. try to keep it above 30-40 words, but if not possible, then leave as such."
     )
 }
 messages_array = [system_msg]
@@ -43,9 +47,64 @@ def home():
 
 @app.route('/predict', methods=['POST'])
 def predict():
-    prompt = request.form['prompt']
-    prediction = get_gpt_output(prompt)
-    return render_template('index.html', prediction=prediction)
+    inputs = {
+        "location": request.form.get('location'),
+        "age": request.form.get('age'),
+        "medical_conditions": request.form.get('medical_conditions'),
+        "net_worth": request.form.get('net_worth'),
+        "asset_worth": request.form.get('asset_worth'),
+        "job": request.form.get('job'),
+        "job_likelihood": request.form.get('job_likelihood'),
+        "years_into_future": request.form.get('years_into_future')
+    }
+
+    # Input checking
+    for key, value in inputs.items():
+        if not value:
+            inputs[key] = "Not provided"
+
+    predictions = {}
+    for key, value in inputs.items():
+        predictions[key] = value
+
+    location = predictions["location"]
+    years_future = predictions["years_into_future"]
+    medical_conditions = predictions["medical_conditions"]
+    job = predictions["job"]
+    net_worth = predictions["net_worth"]
+    asset_worth = predictions["asset_worth"]
+    ecological_prompt = str(
+        f"Describe the ecological impact on {location} in {years_future} years due to climate change.")
+    ecological_impact = get_gpt_output(ecological_prompt)
+
+    medical_prompt = str(
+        f"Describe how {medical_conditions} in {location} might be impacted by climate change in {years_future} years.")
+    medical_impact = get_gpt_output(medical_prompt)
+
+    job_prompt = str(
+        f"Describe how a {job} might be impacted by climate change in {years_future} years.")
+    job_impact = get_gpt_output(job_prompt)
+
+    relocation_prompt = str(
+        f"Recommend whether a person with ${net_worth} in bank account and ${asset_worth} in assets should relocate"
+        f" due to climate change in {years_future} years, and suggest nearby locations. Try to create a score out of 100"
+        f"at which you would recommend they move, and list some nearby cities that would be suitable.")
+    relocation_recommendation = get_gpt_output(relocation_prompt)
+
+    modification_prompt = str(
+        f"Suggest modifications for living space, daily lifestyle, or diet to prepare for climate change effects in"
+        f" {years_future} years.")
+    modifications = get_gpt_output(modification_prompt)
+
+    responses = {
+        f"Ecological Impact on {location} in {years_future} years": ecological_impact,
+        f"Impact on Medical Conditions in {years_future} years": medical_impact,
+        f"Impact on Job in {years_future} years": job_impact,
+        "Relocation Recommendation": relocation_recommendation,
+        "Modifying Your Living Space, Daily Lifestyle, or Diet": modifications
+    }
+
+    return render_template('index.html', responses=responses)
 
 
 if __name__ == '__main__':

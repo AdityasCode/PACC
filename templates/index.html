@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Climate Change Impact Predictions</title>
+</head>
+<body>
+<h1>Climate Change Impact Predictions</h1>
+<form action="/predict" method="post">
+    <label for="location">Location:</label>
+    <input type="text" id="location" name="location"><br>
+    <label for="age">Age:</label>
+    <input type="text" id="age" name="age"><br>
+    <label for="medical_conditions">Medical Conditions:</label>
+    <input type="text" id="medical_conditions" name="medical_conditions"><br>
+    <label for="net_worth">Net Worth:</label>
+    <input type="text" id="net_worth" name="net_worth"><br>
+    <label for="asset_worth">Asset Worth:</label>
+    <input type="text" id="asset_worth" name="asset_worth"><br>
+    <label for="job">Job:</label>
+    <input type="text" id="job" name="job"><br>
+    <label for="job_likelihood">Likelihood of Getting Another Job:</label>
+    <input type="text" id="job_likelihood" name="job_likelihood"><br>
+    <label for="years_into_future">Years into the Future:</label>
+    <input type="text" id="years_into_future" name="years_into_future"><br>
+    <button type="submit">Submit</button>
+</form>
+{% if responses %}
+    <h2>Predictions:</h2>
+    {% for key, value in responses.items() %}
+        <h3>{{ key.capitalize().replace('_', ' ') }}:</h3>
+        <p>{{ value }}</p>
+    {% endfor %}
+{% endif %}
+</body>
+</html>
