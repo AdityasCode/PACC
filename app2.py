@@ -1,8 +1,10 @@
 import os
+import re
 
 # Load environment variables
 from dotenv import load_dotenv
 from flask import Flask, request, render_template
+from markupsafe import Markup
 from openai import OpenAI
 
 load_dotenv()
@@ -12,6 +14,16 @@ client = OpenAI(api_key=OPENAI_API_KEY)
 
 # Initialize Flask app
 app = Flask(__name__)
+
+
+@app.template_filter('bold')
+def bold_filter(s):
+    bolded = re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', s)
+    return Markup(bolded)
+
+
+app.jinja_env.filters['bold'] = bold_filter
+
 
 # Function to get GPT output
 system_msg = {
