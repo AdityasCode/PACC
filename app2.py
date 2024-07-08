@@ -66,6 +66,30 @@ def predict():
         "years_into_future": request.form.get('years_into_future')
     }
 
+    # Server-side input checking
+    errors = []
+    if not inputs['age'].isdigit() or not (13 <= int(inputs['age']) <= 120):
+        errors.append("Age must be a number between 13 and 120.")
+
+    if not inputs['net_worth'].isdigit() or int(inputs['net_worth']) <= 0:
+        errors.append("Net worth must be a number greater than 0.")
+
+    if not inputs['asset_worth'].isdigit() or int(inputs['asset_worth']) <= 0:
+        errors.append("Asset worth must be a number greater than 0.")
+
+    if not inputs['job_likelihood'].isdigit() or not (0 <= int(inputs['job_likelihood']) <= 100):
+        errors.append("Job likelihood must be a number between 0 and 100.")
+
+    if not inputs['years_into_future'].isdigit() or not (1 <= int(inputs['years_into_future']) <= 25):
+        errors.append("Years into the future must be a number between 1 and 25.")
+
+    if errors:
+        return render_template('index.html', errors=errors)
+
+    predictions = {}
+    for key, value in inputs.items():
+        predictions[key] = get_gpt_output(f"{key.capitalize().replace('_', ' ')}: {value}")
+
     # Input checking
     for key, value in inputs.items():
         if not value:
