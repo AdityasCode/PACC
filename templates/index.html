@@ -1,59 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+<script>
+    window.va = window.va || function () {
+        (window.vaq = window.vaq || []).push(arguments);
+    };
+</script>
+<script defer src="/_vercel/insights/script.js"></script>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Climate Change Impact Predictions</title>
-    <script>
-        window.va = window.va || function () {
-            (window.vaq = window.vaq || []).push(arguments);
-        };
-    </script>
-    <script defer src="/_vercel/insights/script.js"></script>
-    <script>
-        function validateForm() {
-            let location = document.getElementById("location").value;
-            let age = document.getElementById("age").value;
-            let medical_conditions = document.getElementById("medical_conditions").value;
-            let net_worth = document.getElementById("net_worth").value;
-            let asset_worth = document.getElementById("asset_worth").value;
-            let job = document.getElementById("job").value;
-            let job_likelihood = document.getElementById("job_likelihood").value;
-            let years_into_future = document.getElementById("years_into_future").value;
-
-            if (isNaN(age) || age < 13 || age > 120) {
-                alert("Age must be a number between 13 and 120.");
-                return false;
-            }
-
-            if (isNaN(net_worth) || net_worth <= 0) {
-                alert("Net worth must be a number greater than 0.");
-                return false;
-            }
-
-            if (isNaN(asset_worth) || asset_worth <= 0) {
-                alert("Asset worth must be a number greater than 0.");
-                return false;
-            }
-
-            if (isNaN(job_likelihood) || job_likelihood < 0 || job_likelihood > 100) {
-                alert("Job likelihood must be a number between 0 and 100.");
-                return false;
-            }
-
-            if (isNaN(years_into_future) || years_into_future < 1 || years_into_future > 25) {
-                alert("Years into the future must be a number between 1 and 25.");
-                return false;
-            }
-
-            return true;
-        }
-    </script>
 </head>
 <body>
 <h1>Climate Change Impact Predictions</h1>
-<h1>Climate Change Impact Predictions</h1>
-<form action="/predict" method="post" onsubmit="return validateForm()">
+<form action="/predict" method="post">
     <label for="location">Location:</label>
     <input type="text" id="location" name="location"><br>
     <label for="age">Age:</label>
