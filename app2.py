@@ -24,7 +24,15 @@ system_msg = {
         "how many years into the future you should predict. Only answer with your predictions, no greetings, no other "
         "phrases and nothing else. if you happen to receive missing or invalid input or something that does not sound real or "
         "fitting, simply reply with 'invalid/insufficient/missing input'. Give answers as detailed as possible, but do "
-        "not give false information. try to keep it above 30-40 words, but if not possible, then leave as such."
+        "not give false information. try to keep it above 30-40 words, but if not possible, then leave as such. "
+        "if someone is retired or unemployed or a student or a similar understandable and "
+        "realistic predicament for not having a job, then suggest something general. if someone has no medical "
+        "conditions, suggest something general. and if someone does not provide an appropriate amount of years into the"
+        " future, i.e. >25 or <1, assume they mean 1 year. if they do not provide a location you can identify, use the "
+        "general global trend and use most popular cities in the world for the relocation. if someone fails to provide "
+        "an age between 13 and 120, default to 25 and mention 'Defaulting to 25 years old.' Similarly, default to 0 "
+        "for net and asset worths and mention it, and default to no medical conditions if you cannot understand or they"
+        " have not given sufficient information on that."
     )
 }
 messages_array = [system_msg]
