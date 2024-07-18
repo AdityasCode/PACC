@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Climate Change Impact Predictions</title>
+    <!-- Materialize CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #e40808; /* Light gray background */
+        }
+
+        .container {
+            margin-top: 50px;
+        }
+
+        .teal-text {
+            color: #002a96 !important; /* Teal color */
+        }
+
+        .orange-text {
+            color: #FF5722 !important; /* Deep orange color */
+        }
+
+        .card-panel {
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1 class="teal-text center-align">Climate Change Impact Predictions</h1>
+    <div class="card-panel white">
+        <form action="/predict" method="post">
+            <div class="input-field">
+                <label for="location">Location (City):</label>
+                <input type="text" id="location" name="location">
+            </div>
+            <div class="input-field">
+                <label for="age">Age:</label>
+                <input type="text" id="age" name="age">
+            </div>
+            <div class="input-field">
+                <label for="medical_conditions">Medical Conditions:</label>
+                <input type="text" id="medical_conditions" name="medical_conditions">
+            </div>
+            <div class="input-field">
+                <label for="net_worth">Net Worth:</label>
+                <input type="text" id="net_worth" name="net_worth">
+            </div>
+            <div class="input-field">
+                <label for="asset_worth">Asset Worth:</label>
+                <input type="text" id="asset_worth" name="asset_worth">
+            </div>
+            <div class="input-field">
+                <label for="job">Job (if student, please specify discipline):</label>
+                <input type="text" id="job" name="job">
+            </div>
+            <div class="input-field">
+                <label for="job_likelihood">Likelihood of Getting Another Job (0 - 100):</label>
+                <input type="text" id="job_likelihood" name="job_likelihood">
+            </div>
+            <div class="input-field">
+                <label for="years_into_future">Years into the Future (1 - 25):</label>
+                <input type="text" id="years_into_future" name="years_into_future">
+            </div>
+            <div class="center-align">
+                <button type="submit" class="btn waves-effect waves-light teal">Submit</button>
+            </div>
+        </form>
+        {% if responses %}
+            <h2 class="orange-text">Predictions:</h2>
+            {% for key, value in responses.items() %}
+                <h3 class="teal-text">{{ key.capitalize().replace('_', ' ') }}:</h3>
+                <p>{{ value }}</p>
+            {% endfor %}
+        {% endif %}
+    </div>
+</div>
+<!-- Materialize JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</body>
+</html>

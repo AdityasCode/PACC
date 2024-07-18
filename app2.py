@@ -34,10 +34,10 @@ system_msg = {
         "ecological impact of climate change. A user will talk to my app, and give their city/state/country, age, "
         "medical conditions, net worth, asset worth, job, and likelihood of getting another job. I will then tell you"
         "how many years into the future you should predict. Only answer with your predictions, no greetings, no other "
-        "phrases and nothing else. if you happen to receive missing or invalid input or something that does not sound real or "
-        "fitting, simply reply with 'invalid/insufficient/missing input'. Give answers as detailed as possible, but do "
-        "not give false information. try to keep it above 30-40 words, but if not possible, then leave as such. "
-        "if someone is retired or unemployed or a student or a similar understandable and "
+        "phrases and nothing else. if you happen to receive missing or invalid input or something that does not sound "
+        "real or fitting, simply reply with 'invalid/insufficient/missing input'. Give answers as detailed as "
+        "possible, but do not give false information. try to keep it above 30-40 words, but if not possible, then "
+        "leave as such. If someone is retired or unemployed or a student or a similar understandable and "
         "realistic predicament for not having a job, then suggest something general. if someone has no medical "
         "conditions, suggest something general. and if someone does not provide an appropriate amount of years into the"
         " future, i.e. >25 or <1, assume they mean 1 year. if they do not provide a location you can identify, use the "
@@ -45,7 +45,7 @@ system_msg = {
         "an age between 13 and 120, default to 25 and mention 'Defaulting to 25 years old.' Similarly, default to 0 "
         "for net and asset worths and mention it, and default to no medical conditions if you cannot understand or they"
         " have not given sufficient information on that. Separate by newlines, format as needed. Will be printed as "
-        "plain text, so no need for asterisks or stars to make bold."
+        "plain text, so no need for asterisks or stars to make bold. Reply to every question in under 60 words."
     )
 }
 messages_array = [system_msg]
@@ -53,7 +53,7 @@ messages_array = [system_msg]
 
 def get_gpt_output(prompt):
     messages_array.append({"role": "user", "content": prompt})
-    raw_response = client.chat.completions.create(model="gpt-4o",
+    raw_response = client.chat.completions.create(model="gpt-3.5-turbo",
                                                   messages=messages_array,
                                                   temperature=0)
     response = raw_response.choices[0].message.content
@@ -63,7 +63,7 @@ def get_gpt_output(prompt):
 
 @app.route('/')
 def home():
-    return render_template('index.html')
+    return render_template('indextry.html')
 
 
 @app.route('/predict', methods=['POST'])
@@ -114,7 +114,7 @@ def predict():
 
     modification_prompt = str(
         f"Suggest modifications for living space, daily lifestyle, or diet to prepare for climate change effects in"
-        f" {years_future} years.")
+        f" {years_future} years, specified to the given data.")
     modifications = get_gpt_output(modification_prompt)
 
     responses = {
@@ -125,7 +125,7 @@ def predict():
         "Modifying Your Living Space, Daily Lifestyle, or Diet": modifications
     }
 
-    return render_template('index.html', responses=responses)
+    return render_template('indextry.html', responses=responses)
 
 
 if __name__ == '__main__':
