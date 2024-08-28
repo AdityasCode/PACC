@@ -1,7 +1,7 @@
 # PACC
-http://pacc.vercell.app
+http://pacc.vercel.app
 
-peep how climate change is going to affect you in `x` years
+Find out how climate change is going to affect you in `x` years!
 
 to-do list:
 
@@ -13,4 +13,4 @@ to-do list:
 - [] connect to google earth engine
 - [] train on environmental reports, health documents, job industry analyses, etc.
 
-feel free to reach out at adityagandhi98101@gmail.com for questions
+feel free to reach out at aditya.gandhi@hotmail.com for questions!
